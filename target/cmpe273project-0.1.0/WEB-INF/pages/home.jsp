@@ -16,7 +16,9 @@
     </style>
     <head>
     <script
-    src="http://maps.googleapis.com/maps/api/js?key=AIzaSyClkmSPNsPZPdqGrcVnsvakV7HeslxbgRY&sensor=false">
+    
+    src="http://maps.googleapis.com/maps/api/js?key=AIzaSyClkmSPNsPZPdqGrcVnsvakV7HeslxbgRY&sensor=false"  >
+      
     </script>
 
     <script>
@@ -34,6 +36,7 @@
           map: map,
           title: 'bike stand'
       });
+     
 }
 
     google.maps.event.addDomListener(window, 'load', initialize);
@@ -41,11 +44,11 @@
     
   </head>
   <body>
-   <div id="googleMap" style="width:500px;height:380px;"></div>
-	<div id="container">
+   <div id="googleMap" style="width:500px;height:300px;float:right;"></div>
+	<div id="container" style="float:left;">
     <h2>BIKE SHARE</h2>
-		<c:if test="${not empty message}"><div class="message green">${message}</div></c:if>
-
+		
+ <c:if test="${not empty message}"><div class="message green">${message}</div></c:if>
 		<form:form modelAttribute="location">
 			<label for="LocationSelect">Location:</label>
 			<form:select path="location" id="LocationSelect">
@@ -57,8 +60,8 @@
 			<br/>
 
 			<br/>
-			<input type="submit" value="Submit" onClick="initialize()" />
-			
+			<input type="submit" value="Submit" onClick="" />
+						
 		</form:form>
 	</div>
 </body>
