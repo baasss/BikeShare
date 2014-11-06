@@ -1,0 +1,5 @@
+com/baasss/common/model/Location.class
+com/baasss/common/controller/BikeController.class
+com/baasss/common/model/Location$Frequency.class
+com/baasss/common/model/User.class
+com/baasss/common/config/SpringMongoConfig.class

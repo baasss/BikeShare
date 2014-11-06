@@ -22,7 +22,7 @@ public class Location {
 	}
 	@Override
 	public String toString() {
-		return "\nstation name: " + location_name +" available bikes: "+ no_of_bikes_available + "available docks: "+no_of_docks_available ;
+		return "\nStation Name: " + location_name +" \nAvailable Bikes: "+ no_of_bikes_available + "\nAvailable Docks: "+no_of_docks_available ;
 				 }
 /* getters and setters - can user later to make private
 	public int getNo_of_docks_available() {
