@@ -82,7 +82,60 @@ public String submitForm(Location location, User user, Model m) {
 
 	                return "home";
 	}
+@RequestMapping(value="/Registration", method = RequestMethod.GET)
+public String regUser(Model m) {
+   
+    m.addAttribute("user",new User());
+    return "Registration";
+}
 
+
+
+@RequestMapping(value="/registered", method=RequestMethod.POST)
+public String register(User user, Model m) 
+{
+	try{
+		String User = "User";
+		uri=new MongoClientURI(link);
+		mongoClient = new MongoClient(uri);
+		db = mongoClient.getDB("bikesharedb");
+		if (!db.collectionExists(User)) {
+		    db.createCollection(User, new BasicDBObject());
+		  }
+		locationCollection = db.getCollection("User");
+		BasicDBObject document = new BasicDBObject();
+		document.put("name",user.name);
+		document.put("email",user.email);
+		document.put("username",user.username);
+		document.put("password",user.password);
+		document.put("mobileNo",user.mobileNo);
+		document.put("bikesOwned",user.bikes_owned);
+		
+		locationCollection.insert(document);
+				
+	/*	 DBCursor cursor = locationCollection.find();
+	        while(cursor.hasNext()) {
+	            System.out.println(cursor.next());
+	        }
+	        */
+	        return "Success";
+		
+	}catch(UnknownHostException ex){
+		ex.printStackTrace();
+		return "Failure";
+	}
+	
+	
+	/*
+	System.out.println(user.name);
+	System.out.println(user.email);
+	System.out.println(user.username);
+	System.out.println(user.password);
+	System.out.println(user.mobileNo);
+	System.out.println(user.bikes_owned);
+	*/
+	
+}
 @RequestMapping(value="/sendcode", method=RequestMethod.POST)
 public String sendMessage(Location location, User user, Model m) {
 	
