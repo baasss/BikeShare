@@ -60,7 +60,7 @@
 
 		<form:form modelAttribute="location" action="/loadmap">
 			<label for="LocationSelect">Location:</label>
-			<form:select path="location" id="LocationSelect">
+			<form:select path="location" id="LocationSelect" onchange="this.form.submit()">
 				<form:option value="">Select the nearest location: </form:option>
 				<c:forEach items="${locations}" var="location1">
 					<form:option value="${location1}">${location1}</form:option>
@@ -69,7 +69,7 @@
 			<br/>
 
 			<br/>
-			<input type="submit" value="Submit" onClick="initialize()" />
+			 <!--  <input type="submit" value="Submit" onclick="initialize()" /> --> 
 			
 		</form:form>
 					<br/>
