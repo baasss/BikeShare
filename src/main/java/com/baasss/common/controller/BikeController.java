@@ -109,6 +109,8 @@ public String regLogin(Model m) {
 public String register(User user, Model m) 
 {
 	try{
+		m.addAttribute("user",new User());
+    		m.addAttribute("location",new Location()); 
 		String User = "User";
 		uri=new MongoClientURI(link);
 		mongoClient = new MongoClient(uri);
@@ -138,7 +140,7 @@ public String register(User user, Model m)
 		ex.printStackTrace();
 		return "Failure";
 	}
-	
+}	
 @RequestMapping(value="/login", method = RequestMethod.GET)
 public String userLogin(Model m) {
    
@@ -183,17 +185,8 @@ public String validateLogin(User user, Model m)  {
     
    // return "home";
 }
-
-	/*
-	System.out.println(user.name);
-	System.out.println(user.email);
-	System.out.println(user.username);
-	System.out.println(user.password);
-	System.out.println(user.mobileNo);
-	System.out.println(user.bikes_owned);
-	*/
 	
-}
+
 @RequestMapping(value="/sendcode", method=RequestMethod.POST)
 public String sendMessage(Location location, User user, Model m) {
 	
