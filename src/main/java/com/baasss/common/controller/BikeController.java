@@ -51,6 +51,14 @@ public String getBike(Model m) {
     m.addAttribute("user",new User());
     return "home";
 }
+
+
+@RequestMapping(value="/home", method = RequestMethod.POST)
+public String fromLogin(Model m) {
+    m.addAttribute("location",new Location());
+    m.addAttribute("user",new User());
+    return "home";
+}
 	
 @RequestMapping(value="/loadmap", method=RequestMethod.POST)
 public String submitForm(Location location, User user, Model m) {
@@ -89,6 +97,12 @@ public String regUser(Model m) {
     return "Registration";
 }
 
+@RequestMapping(value="/Registration", method = RequestMethod.POST)
+public String regLogin(Model m) {
+   
+    m.addAttribute("user",new User());
+    return "Registration";
+}
 
 
 @RequestMapping(value="/registered", method=RequestMethod.POST)
@@ -118,14 +132,58 @@ public String register(User user, Model m)
 	            System.out.println(cursor.next());
 	        }
 	        */
-	        return "Success";
+	       return "home";
 		
 	}catch(UnknownHostException ex){
 		ex.printStackTrace();
 		return "Failure";
 	}
 	
-	
+@RequestMapping(value="/login", method = RequestMethod.GET)
+public String userLogin(Model m) {
+   
+    m.addAttribute("user",new User());
+    return "login";
+}
+
+@RequestMapping(value="/validating", method = RequestMethod.POST)
+public String validateLogin(User user, Model m)  {
+   
+    m.addAttribute("user",new User());
+    m.addAttribute("location",new Location());  
+  
+    System.out.println(user.Loggingusername);
+    System.out.println(user.Loggingpassword);
+    try{
+   
+	uri=new MongoClientURI(link);
+	mongoClient = new MongoClient(uri);
+	db = mongoClient.getDB("bikesharedb");
+	locationCollection = db.getCollection("User");
+	BasicDBObject searchQuery = new BasicDBObject();
+	searchQuery.put("username",user.Loggingusername);
+	searchQuery.put("password",user.Loggingpassword);
+	 DBCursor cursor = locationCollection.find(searchQuery);
+	 if(cursor.hasNext()) {
+		
+	       return "home";
+	   }
+	 else 
+		 {
+		 System.out.println("not found");
+		 return "Failure";
+		 }
+	 
+	 
+    }
+    catch(UnknownHostException ex){
+		ex.printStackTrace();
+		return "Failure";
+	}
+    
+   // return "home";
+}
+
 	/*
 	System.out.println(user.name);
 	System.out.println(user.email);
