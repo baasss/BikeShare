@@ -6,14 +6,26 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class User {
 	
 	private String phonenumber;
-	
+	public String Loggingusername;
+	public String Loggingpassword;
 	public String name;
 	public String email;
 	public String username;
 	public String password;
 	public String mobileNo;
 	public String bikes_owned;
-	
+	public String getLoggingusername() {
+		return Loggingusername;
+	}
+	public void setLoggingusername(String userLogin) {
+		Loggingusername = userLogin;
+	}
+	public String getLoggingpassword() {
+		return Loggingpassword;
+	}
+	public void setLoggingpassword(String pwdLogin) {
+		Loggingpassword = pwdLogin;
+	}
 	public String getBikes_owned() {
 		return bikes_owned;
 	}
