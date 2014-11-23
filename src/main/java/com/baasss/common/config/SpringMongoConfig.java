@@ -25,22 +25,17 @@ public class SpringMongoConfig {
       
     }
     
-    DBCollection DBCollection() {
-    	
-    	DB db;
-    	MongoClient mongoClient = null;
-    	DBCollection locationCollection = null; 
+    public MongoClient getMongoClient() {
+    	MongoClient mongoClient=null ;
     	String link ="mongodb://bharathnaggowda:m0ngodbPa$$@ds049150.mongolab.com:49150/bikesharedb";
     	MongoClientURI uri =new MongoClientURI(link);
     	
     	try{
     		mongoClient = new MongoClient(uri);
-    		db = mongoClient.getDB("bikeshared");
-    		locationCollection = db.getCollection("Location");
     	}catch(UnknownHostException ex){
     		ex.printStackTrace();
     	}
-		return locationCollection;
+		return mongoClient;
     }
 
 }
