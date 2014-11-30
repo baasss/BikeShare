@@ -57,6 +57,30 @@
 	<div id="container">
     <h2>BIKE SHARE</h2>
 		<c:if test="${not empty message}"><div class="message green">${message}</div></c:if>
+		
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+
+  <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+
+  <link rel="stylesheet" href="/resources/demos/style.css ">
+
+  <script>
+
+  $(function() {
+
+    $( "#datepicker" ).datepicker({
+        minDate: '0d',
+        maxDate: '+1d'
+    });
+
+  });
+
+  </script>
+
+
+
 
 		<form:form modelAttribute="location" action="/loadmap">
 			<label for="LocationSelect">Location:</label>
@@ -73,6 +97,20 @@
 			
 		</form:form>
 					<br/>
+					<br/>
+
+<p>Date: <input type="text" id="datepicker"></p>
+
+<br/>
+		<table>
+		<tr>
+		<td>${bikeid0}
+		</td>
+		<td>${bikeid1}
+		</td>
+		<td>${bikeid2}
+		</td>
+		</tr></table>
 		<form:form id="user" modelAttribute="user" action="/sendcode">
 		<h4>Enter your phone number below to book the bike</h4>
 					<form:input path="phonenumber" id="phonenumberInput" disabled="true"></form:input>

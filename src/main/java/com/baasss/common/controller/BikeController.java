@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.baasss.common.model.Bike;
 import com.baasss.common.model.Location;
 import com.baasss.common.model.Location.Frequency;
 import com.baasss.common.model.User;
@@ -34,6 +35,7 @@ public class BikeController {
 	SpringMongoConfig mongoConfig=new SpringMongoConfig();
 	MongoClient mongoClient=mongoConfig.getMongoClient();
 	DBCollection locationCollection;
+	DBCollection bikeCollection;
 	String link ="mongodb://bharathnaggowda:m0ngodbPa$$@ds049150.mongolab.com:49150/bikesharedb";
 	public static final String ACCOUNT_SID = "ACcb63f40bbffb27bf7881adbce8f4640e";
 	public static final String AUTH_TOKEN = "3bda4c016a7d2f05c3b39d983d587ce5";
@@ -56,8 +58,9 @@ public String fromLogin(Model m) {
 }
 	
 @RequestMapping(value="/loadmap", method=RequestMethod.POST)
-public String submitForm(Location location, User user, Model m) {
+public String submitForm(Location location, Bike bike, User user, Model m) {
 		 db =mongoClient.getDB("bikesharedb");
+		 
 		 locationCollection = db.getCollection("Location");
 	     BasicDBObject searchQuery=new BasicDBObject();
 	     searchQuery.put("Location_name",String.valueOf(location.getLocation()));
@@ -81,8 +84,27 @@ public String submitForm(Location location, User user, Model m) {
 	        		m.addAttribute("loc", location.getLocation_name());
 	        		System.out.println("newcode");
 	            }
+	        int i = 0;
+	        bikeCollection = db.getCollection("Bike");
+	        DBCursor bikecursor=bikeCollection.find(searchQuery);
+	        while(bikecursor.hasNext())
+            {
+                DBObject theUserObj=bikecursor.next();
+                BasicDBObject theBasicUserObject= (BasicDBObject)theUserObj;
+                bike.setBike_id(theBasicUserObject.getString("bike_id"));
+                //bike.setLocation_name(theBasicUserObject.getString("Location_name"));
+                
+                
+           
+                m.addAttribute("bikeid"+i,bike.toString());
+        		//m.addAttribute("loc", bike.getLocation_name());
+                i++;
+        		System.out.println("newcode");
+            }
+        
 	                return "home";
 	}
+
 @RequestMapping(value="/StationMap", method = RequestMethod.GET)
 public String getStationMap(Model m) {
 		db =mongoClient.getDB("bikesharedb");
@@ -126,7 +148,6 @@ public String regLogin(Model m) {
     m.addAttribute("user",new User());
     return "Registration";
 }
-
 
 @RequestMapping(value="/registered", method=RequestMethod.POST)
 public String register(User user, Model m) 
