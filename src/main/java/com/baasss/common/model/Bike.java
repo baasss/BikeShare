@@ -19,7 +19,7 @@ public class Bike {
 	}
 	@Override
 	public String toString() {
-		return " \nList of Bikes in the selected location: "+ bike_id  ;
+		return bike_id  ;
 				 }
 
 	public String getBike_id() {

@@ -31,6 +31,12 @@
 			<artifactId>spring-context</artifactId>
 			<version>3.2.2.RELEASE</version>
 		</dependency>
+		
+		<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-context-support</artifactId>
+    <version>3.2.8.RELEASE</version>
+</dependency>
  
 		<!-- mongodb java driver -->
 		<dependency>
@@ -74,19 +80,25 @@
         <scope>runtime</scope>
     </dependency>
     
-    <!-- Java Mail API -->
-    <dependency>
-	    <groupId>javax.mail</groupId>
-	    <artifactId>mail</artifactId>
-	    <version>1.4.3</version>
-    </dependency>
-    
     <!-- Twilio Api -->
     <dependency>
     <groupId>com.twilio.sdk</groupId>
     <artifactId>twilio-java-sdk</artifactId>
     <version>3.4.5</version>
 </dependency>
+<dependency>
+    <groupId>com.googlecode.json-simple</groupId>
+    <artifactId>json-simple</artifactId>
+    <version>1.1</version>
+</dependency>
+
+    <!-- Java Mail API -->
+    <dependency>
+	<groupId>javax.mail</groupId>
+	<artifactId>mail</artifactId>
+	<version>1.4</version>
+</dependency>
+
    </dependencies>
 
 

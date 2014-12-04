@@ -14,6 +14,22 @@ public class User {
 	public String password;
 	public String mobileNo;
 	public String bikes_owned;
+	public String selslot;
+	public String sendcode;
+	
+	public String getSelslot() {
+		return selslot;
+	}
+	public void setSelslot(String selslot) {
+		this.selslot = selslot;
+	}
+	public String getSendcode() {
+		return sendcode;
+	}
+	public void setSendcode(String sendcode) {
+		this.sendcode = sendcode;
+	}
+	
 	public String getLoggingusername() {
 		return Loggingusername;
 	}

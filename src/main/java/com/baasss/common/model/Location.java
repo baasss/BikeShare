@@ -1,4 +1,6 @@
 package com.baasss.common.model;
+import java.util.Date;
+
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "Location")
@@ -8,7 +10,16 @@ public class Location {
 	private double latitude;
 	private int no_of_bikes_available;
 	private String location_name;
+	private Date preffered_date;
 	
+	public Date getPreffered_date() {
+		return preffered_date;
+	}
+
+	public void setPreffered_date(Date preffered_date) {
+		this.preffered_date = preffered_date;
+	}
+
 	public enum Frequency {
 		SANTACLARA, SANJOSE, FRUITDALE, SUNNYVALE, MILPITAS,CUPERTINO,SARATOGA,LOSGATOS,PALOALTO,SANCARLOS
 	}
