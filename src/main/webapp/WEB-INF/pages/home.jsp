@@ -1,6 +1,42 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE HTML>
+
+<% 
+	response.setHeader("Cache-Control", "no-cache,no-store,private,must-revalidate,max-stale=0,post-check=0,pre-check=0"); // HTTP 1.1.
+	response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+	response.setDateHeader("Expires", 0); // Proxies.
+%>
+
+<%
+	
+	
+	Cookie[] cookies = request.getCookies();
+	boolean flag=false;
+	if(cookies !=null)
+	{
+	
+			for(Cookie cookie : cookies)
+			{
+				String username = null;
+    			if(cookie.getName().equals("user")) 
+    			{
+    				System.out.println("test "+cookie.getName());
+    				username = cookie.getValue();
+					System.out.println("test "+username);
+					flag= true;
+    			}
+    		}
+	}
+	
+	if(!(flag)) 
+	{
+	System.out.println("no cookie");
+	response.sendRedirect("/bikeshare-1/login");
+	}
+%>
+
+
 <html>
 
   <head>
@@ -76,6 +112,14 @@
    <div id="googleMap" style="width:1350px;height:380px;"></div>
 	<div id="container">
     <h2>BIKE SHARE</h2>
+ <form:form action="/sessionLogout" method="post" modelAttribute="user" >
+   
+   	 <div style="position: absolute; top: 0; right: 900; width: 1000px; text-align:right;">
+    <label >${a}</label>
+    <input type="submit" value="Logout" id="submitButton"/>
+  </div>
+	</form:form>
+ 
 		<c:if test="${not empty message}"><div class="message green">${successmessage}</div></c:if>
 		
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">

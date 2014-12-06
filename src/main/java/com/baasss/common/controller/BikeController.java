@@ -1,10 +1,15 @@
 package com.baasss.common.controller;
 
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -15,6 +20,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,6 +37,7 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
 import com.twilio.sdk.TwilioRestClient;
 import com.twilio.sdk.TwilioRestException;
 import com.twilio.sdk.resource.factory.MessageFactory;
@@ -227,20 +234,81 @@ public String userLogin(Model m) {
     return "login";
 }
 
-@RequestMapping(value="/validating", method = RequestMethod.POST)
-public String validateLogin(User user, Model m)  {
+@RequestMapping(value="/login", method = RequestMethod.POST)
+public String frmLogout(Model m) {
    
     m.addAttribute("user",new User());
+    return "login";
+}
+
+@RequestMapping(value="/sessionLogout", method = RequestMethod.POST)
+public String userLogout(HttpServletRequest request,HttpServletResponse response, User user , Model m, BindingResult result)
+{
+	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+	response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+	response.setDateHeader("Expires", 0); // Proxies.
+	
+	Cookie cookie = null;
+	   Cookie[] cookies = null;
+	   // Get an array of Cookies associated with this domain
+	   cookies = request.getCookies();
+	   if( cookies != null ){
+		   System.out.println("<h2> Found Cookies Name and Value</h2>");
+	      for (int i = 0; i < cookies.length; i++){
+	         cookie = cookies[i];
+	        // if((cookie.getName( )).compareTo("user") == 0 ){
+	            cookie.setMaxAge(0);
+	            response.addCookie(cookie);
+	           System.out.print("Deleted cookie: " + 
+	            cookie.getName( ) + "<br/>");
+	       //  }
+	         System.out.print("Name : " + cookie.getName( ) + ",  ");
+	         System.out.print("Value: " + cookie.getValue( )+" <br/>");
+	      }
+	  }else{
+		  System.out.println(
+	      "<h2>No cookies founds</h2>");
+	  }
+
+	
+	return "login";
+}
+
+@RequestMapping(value="/validating", method = RequestMethod.POST)
+public String validateLogin(HttpServletRequest request,HttpServletResponse response, User user , Model m, BindingResult result)  {
+	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+	response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+	response.setDateHeader("Expires", 0); // Proxies.
+	
+    m.addAttribute("user",new User());
+    
     m.addAttribute("location",new Location());  
   
     System.out.println(user.Loggingusername);
     System.out.println(user.Loggingpassword);
+    try{
+    	if (result.hasErrors()) {
+    		System.out.print("abc");
+            return "login";
+        }
+    	else{
+	uri=new MongoClientURI(link);
+	mongoClient = new MongoClient(uri);
+	db = mongoClient.getDB("bikesharedb");
+	locationCollection = db.getCollection("User");
 	BasicDBObject searchQuery = new BasicDBObject();
 	searchQuery.put("username",user.Loggingusername);
 	searchQuery.put("password",user.Loggingpassword);
-	 DBCursor cursor = userCollection.find(searchQuery);
+	 DBCursor cursor = locationCollection.find(searchQuery);
 	 if(cursor.hasNext()) {
-		
+		 
+		 Cookie loginCookie = new Cookie("user",user.Loggingusername);
+			loginCookie.setMaxAge(30*60);
+			String s = loginCookie.getValue();
+			
+			response.addCookie(loginCookie);
+			m.addAttribute("a",s);
+			System.out.println(s);
 	       return "home";
 	   }
 	 else 
@@ -248,8 +316,16 @@ public String validateLogin(User user, Model m)  {
 		 System.out.println("not found");
 		 return "Failure";
 		 }
+	 
+    	}
+    }
+    catch(UnknownHostException ex){
+		ex.printStackTrace();
+		return "Failure";
+	}
+    
+   // return "home";
 }
-	
 
 @RequestMapping(value="/sendcode", method=RequestMethod.POST)
 public String sendMessage(Location location, User user, Model m) {
