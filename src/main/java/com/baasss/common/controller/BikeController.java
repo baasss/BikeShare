@@ -1,5 +1,7 @@
 package com.baasss.common.controller;
 
+import java.util.Random;
+
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -193,14 +195,14 @@ public String getStationMap(Model m) {
 }
 @RequestMapping(value="/Registration", method = RequestMethod.GET)
 public String regUser(Model m) {
-   
+	
     m.addAttribute("user",new User());
     return "Registration";
 }
 
 @RequestMapping(value="/Registration", method = RequestMethod.POST)
-public String regLogin(Model m) {
-   
+public String regLogin(Model m, User user) {
+	
     m.addAttribute("user",new User());
     return "Registration";
 }
@@ -214,15 +216,36 @@ public String register(User user, Model m)
 	if (!db.collectionExists(User)) {
 	    db.createCollection(User, new BasicDBObject());
 	  }
+	boolean found = false;
 	userCollection = db.getCollection("User");
 	BasicDBObject document = new BasicDBObject();
+	BasicDBObject searchQuery = new BasicDBObject();
+	searchQuery.put("username",user.username);
+	System.out.println(user.username);
+	 DBCursor cursor = userCollection.find(searchQuery);
+	 if(cursor.hasNext()) {
+		 		
+		 found = true;
+		 m.addAttribute("found",found);
+			
+		   return "Registration";
+	   }
 	document.put("name",user.name);
 	document.put("email",user.email);
 	document.put("username",user.username);
 	document.put("password",user.password);
 	document.put("mobileNo",user.mobileNo);
-	document.put("bikesOwned",user.bikes_owned);
-	
+	document.put("bike_taken","false");
+	document.put("Location_name",user.locationInput);
+	Random rn = new Random();
+	int number ;
+	number = rn.nextInt(2000);
+	document.put("bikeaccesscode",number);
+	int id;
+	id = rn.nextInt(100);
+	String bikeId = ("BIKE-"+user.username+"-"+id);
+	System.out.println(bikeId);
+	document.put("bike_id",bikeId);
 	userCollection.insert(document);
 
 	   return "home";
@@ -286,42 +309,33 @@ public String validateLogin(HttpServletRequest request,HttpServletResponse respo
   
     System.out.println(user.Loggingusername);
     System.out.println(user.Loggingpassword);
-    try{
-    	if (result.hasErrors()) {
-    		System.out.print("abc");
-            return "login";
-        }
-    	else{
-	uri=new MongoClientURI(link);
-	mongoClient = new MongoClient(uri);
-	db = mongoClient.getDB("bikesharedb");
-	locationCollection = db.getCollection("User");
-	BasicDBObject searchQuery = new BasicDBObject();
-	searchQuery.put("username",user.Loggingusername);
-	searchQuery.put("password",user.Loggingpassword);
-	 DBCursor cursor = locationCollection.find(searchQuery);
-	 if(cursor.hasNext()) {
-		 
-		 Cookie loginCookie = new Cookie("user",user.Loggingusername);
-			loginCookie.setMaxAge(30*60);
-			String s = loginCookie.getValue();
-			
-			response.addCookie(loginCookie);
-			m.addAttribute("a",s);
-			System.out.println(s);
-	       return "home";
-	   }
-	 else 
-		 {
-		 System.out.println("not found");
-		 return "Failure";
-		 }
+    if (result.hasErrors()) {
+		System.out.print("abc");
+	    return "login";
+	}
+	else{
+
+BasicDBObject searchQuery = new BasicDBObject();
+searchQuery.put("username",user.Loggingusername);
+searchQuery.put("password",user.Loggingpassword);
+ DBCursor cursor = userCollection.find(searchQuery);
+ if(cursor.hasNext()) {
 	 
-    	}
-    }
-    catch(UnknownHostException ex){
-		ex.printStackTrace();
-		return "Failure";
+	 Cookie loginCookie = new Cookie("user",user.Loggingusername);
+		loginCookie.setMaxAge(30*60);
+		String s = loginCookie.getValue();
+		
+		response.addCookie(loginCookie);
+		m.addAttribute("a",s);
+		System.out.println("inside create cookie-->"+s);
+	   return "home";
+   }
+ else 
+	 {
+	 System.out.println("not found");
+	 return "Failure";
+	 }
+ 
 	}
     
    // return "home";

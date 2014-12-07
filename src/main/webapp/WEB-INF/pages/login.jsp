@@ -34,7 +34,7 @@
 	<h4>Username: </h4>
 	<form:input path="Loggingusername" id="unameInput" ></form:input></br></br>
 	<h4>Password: </h4>
-	<form:input path="Loggingpassword" id="pwdInput" ></form:input></br></br>
+	<form:input path="Loggingpassword" id="pwdInput" type = "password"></form:input></br></br>
 	<input type="submit" value="Submit" id="Submit"  />
 	&nbsp;
 	<a href ="http://localhost:8080/bikeshare-1/Registration"><span><input type="button" value="Register"></span></a>

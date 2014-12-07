@@ -16,7 +16,22 @@ public class User {
 	public String bikes_owned;
 	public String selslot;
 	public String sendcode;
+	public String confpassword;
+	public String locationInput;
 	
+	public String getConfpassword() {
+		return confpassword;
+	}
+	public void setConfpassword(String cnfpwd) {
+	confpassword = cnfpwd;
+	}
+	public String getLocationInput() {
+		return locationInput;
+	}
+	public void setLocationInput(String locIn) {
+		locationInput = locIn;
+		
+	}
 	public String getSelslot() {
 		return selslot;
 	}
