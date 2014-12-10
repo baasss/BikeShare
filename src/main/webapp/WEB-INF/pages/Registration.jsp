@@ -80,7 +80,15 @@
             }
          
          }
-         
+        if(document.getElementById("accCodeInput").value !="")
+         {
+         alert("Code must be atleast 5 characters");
+        if(document.getElementById("accCodeInput").value.length<5)
+         {
+         alert("Code must be atleast 5 characters");
+         return false;
+         }
+         } 
      
     	return true;
    
@@ -142,6 +150,9 @@
 	<form:input path="confpassword" type = "password" id="cnfpwdinput"></form:input></br></br>
 	<h4>Mobile Number:  </h4>
 	<form:input path="mobileNo" id="mobileInput"></form:input></br></br>
+
+<h4>Bike Access Code:  </h4>
+	<form:input path="accCode" id="accCodeInput"></form:input></br></br>
 	<h4>Location:  </h4>
 	
 			<form:select path="locationInput" id="LocationSelect" >

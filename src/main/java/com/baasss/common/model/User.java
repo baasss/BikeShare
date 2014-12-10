@@ -11,7 +11,8 @@ public class User {
 	public String Loggingusername;
 	public String Loggingpassword;
 	public String name;
-	public String email;
+ 	public String accCode;	
+ 	public String email;
 	public String username;
 	public String password;
 	public String mobileNo;
@@ -22,7 +23,13 @@ public class User {
 	private String selbike;
 	public String confpassword;
 	public String locationInput;
-	
+
+public String getAccCode() {
+		return accCode;
+	}
+	public void setAccCode(String acode) {
+		accCode = acode;
+	}	
 	public String getConfpassword() {
 		return confpassword;
 	}

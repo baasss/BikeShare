@@ -92,7 +92,7 @@
     </nav>
 <div id="container">
 	<center>
-   
+   ${loginfailure}
 	<form:form action="/validating" method="post" modelAttribute="user" onsubmit="return initialize()">
 	<table cellspacing="10" cellpadding="10">
 	<tr>

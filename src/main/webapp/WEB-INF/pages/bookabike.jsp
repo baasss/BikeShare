@@ -83,13 +83,19 @@
           map: map,
           title: 'bike stand'
       });
+    if(document.getElementById('successmessage').value == "" || document.getElementById('successmessage').value == null){
+    	document.getElementById('LocationSelect').style.display = "block";
+    	document.getElementById('locationsel').style.display = "block";
+    	document.getElementById('dates').style.display = "block";
+    	document.getElementById('datepicker').style.display = "block";      		
+    }
     if(document.getElementById('LocationSelect').value != ""){
     	document.getElementById('datepicker').disabled = false;
     }
     if(document.getElementById('datepicker').value != ""){
-    	noavailablebikes
-    	if(document.getElementById('noavailablebikes').value != "" && document.getElementById('noavailablebikes').value != null){
+    	if(document.getElementById('bikeid').value != "" && document.getElementById('bikeid').value != null){
     		document.getElementById("mes").style.display = "block";
+    		document.getElementById('gcalendar').style.display = "block"; 
     	}
     	if(document.getElementById('bikesid0').value != ""){
         	document.getElementById("fb").style.display = "block";
@@ -105,6 +111,7 @@
 	    	document.getElementById("mess").style.display = "block"; 
 	    	document.getElementById("sendmessage").style.display = "block";
 	    	document.getElementById("submitButton").style.display = "block";
+	    					
 	        if(document.getElementById('firstSlot').value == "True"){
 	        	document.getElementById("fs").style.display = "block";
 	        }
@@ -195,19 +202,19 @@
 
   <link rel="stylesheet" href="/resources/demos/style.css ">
 
-
+<input id="successmessage" type="hidden" value="${successmessage}"/>
   <div class="message green">${noavailablebikes}</div>
 <div class="message green">${successmessage}</div>
 		<form:form modelAttribute="location" action="/loadmap" >
-			<label for="LocationSelect">Location:</label>
-			<form:select path="location" id="LocationSelect" onchange="this.form.submit()">
+			<label id="locationsel" style="display:none" for="LocationSelect">Location:</label>
+			<form:select path="location" id="LocationSelect" style="display:none" onchange="this.form.submit()">
 				<form:option value="">Select the nearest location: </form:option>
 				<c:forEach items="${locations}" var="location1">
 					<form:option value="${location1}">${location1}</form:option>
 				</c:forEach>
 			</form:select>
 			<br/>
-			<p>Date: <form:input type="text" path="preffered_date" id="datepicker" value="${preffered_date}" onchange="this.form.submit()"
+			<p id="dates" style="display:none">Date: <form:input type="text" style="display:none" path="preffered_date" id="datepicker" value="${preffered_date}" onchange="this.form.submit()"
 										disabled="true"></form:input></p>
 										
 		<h4 id="mes" style="display:none">Select a bike to see the available slots</h4>
@@ -242,10 +249,15 @@
 				<td id="ts" style="display:none"><input type="radio" name="selslot" value="tslot">12PM to 2PM</td>
 			</tr>
 
+		</table>	
+		<h4 id="mess" style="display:none">Select a mode to receive the bike access code</h4>
+			<table id="sendmessage" style="display:none">
+			<tr>
+				<td><input type="radio" name="sendcode" value="sendmessage" checked="checked">Message</td>
+				<td><input type="radio" name="sendcode" value="sendmail">Mail</td>
+			</tr>
 		</table>
-
-<br/>
-		<br/>
+		<div id="gcalendar" style="display:none">
 		<script>
 
 (function(e) {
@@ -338,18 +350,8 @@
       document.querySelector('.new-cal').appendChild(myCalendar);
       
   </script>
- 
-		<br/>
-		<br/>
-	
-		<h4 id="mess" style="display:none">Select a mode to receive the bike access code</h4>
-			<table id="sendmessage" style="display:none">
-			<tr>
-				<td><input type="radio" name="sendcode" value="sendmessage" checked="checked">Message</td>
-				<td><input type="radio" name="sendcode" value="sendmail">Mail</td>
-			</tr>
-
-		</table>
+</div>
+		
 		<input id="Loggingusername" name="Loggingusername" type="hidden" value="${Loggingusername}"/>
 			<input style="display:none" type="submit" value="Submit" id="submitButton"/>
 			

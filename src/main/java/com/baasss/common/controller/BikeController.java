@@ -69,6 +69,8 @@ public class BikeController {
 	String bikeaccesscode = null;
 	String ownername = null;
 	String loggedinuser = null;
+	String bike_taken = null;
+	String ownerlocation = null;
     SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 	 
 @ModelAttribute("locations")
@@ -467,7 +469,8 @@ public String register(User user, Model m)
 	userCollection = db.getCollection("User");
 	BasicDBObject document = new BasicDBObject();
 	BasicDBObject searchQuery = new BasicDBObject();
-	searchQuery.put("username",user.username);
+	String name = user.username.toLowerCase();
+	searchQuery.put("username",name);
 	System.out.println(user.username);
 	 DBCursor cursor = userCollection.find(searchQuery);
 	 if(cursor.hasNext()) {
@@ -479,21 +482,71 @@ public String register(User user, Model m)
 	   }
 	document.put("name",user.name);
 	document.put("email",user.email);
-	document.put("username",user.username);
+	document.put("username",name);
 	document.put("password",user.password);
 	document.put("mobileNo",user.mobileNo);
 	document.put("bike_taken","false");
 	document.put("Location_name",user.locationInput);
-	Random rn = new Random();
-	int number ;
-	number = rn.nextInt(2000);
-	document.put("bikeaccesscode",number);
-	int id;
-	id = rn.nextInt(100);
-	String bikeId = ("BIKE-"+user.username+"-"+id);
+	document.put("bikeaccesscode",user.accCode);
+	
+	BasicDBObject doc = new BasicDBObject();
+	String bikeId = ("BIKE-"+user.username.toUpperCase()+"-"+user.locationInput);
 	System.out.println(bikeId);
-	document.put("bike_id",bikeId);
+	
+	BasicDBObject bikeIdquery = new BasicDBObject();
+	bikeIdquery.put("Location_name",user.locationInput);
+	
+	 DBCursor c = bikeListCollection.find(bikeIdquery);
+	 String s1 = user.locationInput;
+	 String s = "";
+	 if(c.hasNext())
+	 {
+		 DBObject theUserObj=c.next();
+		
+	        BasicDBObject theBasicUserObject= (BasicDBObject)theUserObj;
+	       
+	        s  = theBasicUserObject.getString(s1);
+	       
+	       
+	       
+	 }
+	 
+	 else
+	 {
+		 doc.put("Location_name", user.locationInput);
+		 doc.put(s1,bikeId);
+		 bikeListCollection.insert(doc);
+	 }
+	
+	 if(s!="")
+	 {
+	 s = (s+","+bikeId);
+     System.out.println(s);
+     BasicDBObject setDoc = new BasicDBObject();
+     BasicDBObject change = new BasicDBObject("Location_name",user.locationInput);
+ 	setDoc.append(s1,s); 
+ 	BasicDBObject account = new BasicDBObject("$set", setDoc);
+ 	bikeListCollection.update(change, account);
+	 }
 	userCollection.insert(document);
+	
+	String availablebikes = null;
+    BasicDBObject searchQue = new BasicDBObject();
+	searchQue.put("Location_name", user.locationInput);
+	DBCursor lcursor = locationCollection.find(searchQue);
+	while(lcursor.hasNext()){
+		DBObject theUserObj=lcursor.next();
+        BasicDBObject theBasicUserObject= (BasicDBObject)theUserObj;
+        availablebikes = theBasicUserObject.getString("no_of_bikes_available");
+	}
+	int availablebikesupdate = Integer.parseInt(availablebikes) + 1;
+
+	BasicDBObject locchange = new BasicDBObject("Location_name", user.locationInput);   
+	BasicDBObject setlocDoc = new BasicDBObject();
+	setlocDoc.append("no_of_bikes_available", availablebikesupdate);                                         
+	BasicDBObject locaccount = new BasicDBObject("$set", setlocDoc);
+	locationCollection.update(locchange, locaccount);
+	
 
 	   return "bookabike";
 }	
@@ -541,7 +594,7 @@ public String userLogout(HttpServletRequest request,HttpServletResponse response
 	  }
 
 	
-	return "login";
+	return "home";
 }
 
 @RequestMapping(value="/validating", method = RequestMethod.POST)
@@ -563,24 +616,36 @@ public String validateLogin(HttpServletRequest request,HttpServletResponse respo
 	else{
 
 BasicDBObject searchQuery = new BasicDBObject();
-searchQuery.put("username",user.Loggingusername);
+searchQuery.put("username",user.Loggingusername.toLowerCase());
 searchQuery.put("password",user.Loggingpassword);
  DBCursor cursor = userCollection.find(searchQuery);
  if(cursor.hasNext()) {
 	 
-	 Cookie loginCookie = new Cookie("user",user.Loggingusername);
-		loginCookie.setMaxAge(30*60);
-		String s = loginCookie.getValue();
-		
-		response.addCookie(loginCookie);
-		m.addAttribute("a",s);
-		System.out.println("inside create cookie-->"+s);
-	   return "bookabike";
+	  	DBObject theUserObj=cursor.next();
+        BasicDBObject theBasicUserObject= (BasicDBObject)theUserObj;
+        bike_taken = theBasicUserObject.getString("bike_taken");
+        System.out.println("inside validating--->" +bike_taken);
+        if(bike_taken.equals("false")){
+        	Cookie loginCookie = new Cookie("user",user.Loggingusername);
+    		loginCookie.setMaxAge(30*60);
+    		String s = loginCookie.getValue();
+    		
+    		response.addCookie(loginCookie);
+    		m.addAttribute("a",s);
+    		System.out.println("inside create cookie-->"+s);
+    	   return "bookabike";
+        }else{
+
+            m.addAttribute("loginfailure","You cannot book multiple Bikes, please return the bike which you have alradry taken");
+           	 return "login";
+        }
+        
    }
  else 
 	 {
 	 System.out.println("not found");
-	 return "Failure";
+	 m.addAttribute("loginfailure","Username and password does not match");
+	 return "login";
 	 }
  
 	}
@@ -607,6 +672,7 @@ public String sendMessage(Location location, User user, Model m) {
         phoneno = theBasicUserObject.getString("mobileNo");
         ownername = theBasicUserObject.getString("username");
         bikeaccesscode = theBasicUserObject.getString("bikeaccesscode");
+        ownerlocation = theBasicUserObject.getString("Location_name");
 	}
 	
 	BasicDBObject searchUserQuery = new BasicDBObject();
@@ -617,9 +683,9 @@ public String sendMessage(Location location, User user, Model m) {
         BasicDBObject theBasicUserObject= (BasicDBObject)theUserObj;
         userphoneno = theBasicUserObject.getString("mobileNo");
         usermailid = theBasicUserObject.getString("email");
-        bikeaccesscode = theBasicUserObject.getString("bikeaccesscode");
+        
 	}
-	System.out.println("inside sendcode---->"+selectedBikeId+user.getSendcode()+bikeDate+" -- "+userphoneno+" -- "+usermailid +" -- ");
+	System.out.println("inside sendcode---->"+selectedBikeId+user.getSendcode()+bikeDate+" -- "+userphoneno+" -- "+usermailid +" -- "+ownerlocation);
     
 	if(location.getPreffered_date() != null) {
    	 selectedDate = sdf.format(location.getPreffered_date());
@@ -643,7 +709,7 @@ public String sendMessage(Location location, User user, Model m) {
 				   "Bike access code", 
 				   "Use below code to unlock the bike \n\n "+bikeaccesscode);
 		m.addAttribute("successmessage","Bike access code is sent to your contact details");
-		sendMessageToOwner(bikeDate, phoneno, loggedinuser, ownername);
+		sendMessageToOwner(bikeDate, phoneno, loggedinuser, ownername, ownerlocation);
 		return "bookabike";
 		
 	}else if(user.getSendcode().equals("sendmessage")){
@@ -660,7 +726,7 @@ public String sendMessage(Location location, User user, Model m) {
 			try {
 				message = messageFactory.create(params);
 				m.addAttribute("successmessage","Bike access code is sent to your contact details");
-				sendMessageToOwner(bikeDate, phoneno, loggedinuser, ownername);
+				sendMessageToOwner(bikeDate, phoneno, loggedinuser, ownername, ownerlocation);
 			} catch (TwilioRestException e) {
 				 //TODO Auto-generated catch block
 				e.printStackTrace();
@@ -673,14 +739,14 @@ public String sendMessage(Location location, User user, Model m) {
 	
 	}
 
-public void sendMessageToOwner(String bikeidDate, String phoneno, String username, String ownername){
+public void sendMessageToOwner(String bikeidDate, String phoneno, String username, String ownername, String ownerlocation){
 	TwilioRestClient client = new TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN);
     
     List<NameValuePair> params = new ArrayList<NameValuePair>();
     params.add(new BasicNameValuePair("Body", "Your bike is rented "+ username));
     params.add(new BasicNameValuePair("To", "+1"+phoneno));
     params.add(new BasicNameValuePair("From", "+19714074127"));
- 
+	
     MessageFactory messageFactory = client.getAccount().getMessageFactory();
     
 	try {
@@ -691,6 +757,7 @@ public void sendMessageToOwner(String bikeidDate, String phoneno, String usernam
 		setDoc.append("bike_taken", bikeidDate);                                         
 		BasicDBObject account = new BasicDBObject("$set", setDoc);
 		userCollection.update(change, account);
+		
 		
 	} catch (TwilioRestException e) {
 		 //TODO Auto-generated catch block
