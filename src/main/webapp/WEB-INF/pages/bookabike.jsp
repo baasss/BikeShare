@@ -191,8 +191,6 @@
 		
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
 
-  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-
   <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 
   <link rel="stylesheet" href="/resources/demos/style.css ">
@@ -244,7 +242,106 @@
 				<td id="ts" style="display:none"><input type="radio" name="selslot" value="tslot">12PM to 2PM</td>
 			</tr>
 
-		</table>	
+		</table>
+
+<br/>
+		<br/>
+		<script>
+
+(function(e) {
+    var t = 60 * 1e3;
+    var n = function(e) {
+        return e.toISOString().replace(/-|:|\.\d+/g, "")
+    };
+    var r = function(e) {
+        return e.end ? n(e.end) : n(new Date(e.start.getTime() + e.duration * t))
+    };
+    var i = {
+        google: function(e) {
+            var t = n(e.start);
+            var i = r(e);
+            var s = encodeURI(["https://www.google.com/calendar/render", "?action=TEMPLATE", "&text=" + (e.title || ""), "&dates=" + (t || ""), "/" + (i || ""), "&details=" + (e.description || ""), "&location=" + (e.address || ""), "&sprop=&sprop=name:"].join(""));
+            return '<a class="icon-google" target="_blank" href="' + s + '">Add to Google Calendar</a>'
+        }
+        
+    };
+    var s = function(e) {
+        return {
+            google: i.google(e),
+        }
+    };
+    var o = function(e) {
+        return e.data !== undefined && e.data.start !== undefined && (e.data.end !== undefined || e.data.duration !== undefined)
+    };
+    var u = function(e, t, n) {
+        var r = document.createElement("div");
+        
+        Object.keys(e).forEach(function(t) {
+            r.innerHTML += e[t]
+        });
+        r.className = "add-to-calendar";
+        if (t !== undefined) {
+            r.className += " " + t
+        }
+        r.id = n;
+        return r
+    };
+    var a = function(e) {
+        if (e.options && e.options.class) {
+            return e.options.class
+        }
+    };
+    var f = function(e) {
+        return e.options && e.options.id ? e.options.id : Math.floor(Math.random() * 1e6)
+    };
+    e.createCalendar = function(e) {
+        if (!o(e)) {
+            console.log("Event details missing.");
+            return 
+        }
+        return u(s(e.data), a(e), f(e))
+    }
+})(this)
+
+
+
+</script>
+    <link rel="stylesheet" href="main.css">
+    <div class="new-cal"></div>
+    
+    <script>
+    //var date = document.getElementsByName("datepicker");
+    var date = document.getElementById("datepicker").value;
+    var locate = document.getElementById("LocationSelect").value;
+    
+      var myCalendar = createCalendar({
+        options: {
+          class: 'my-class',
+          id: 'my-id'                               
+        },
+        data: {
+          title: 'Bike booked',     // Event title
+          //start: new Date(+date),   // Event start date
+          //start: new Date('December 10, 2014 08:00'),
+          start: new Date(date),
+          duration: 120,     // Event duration (IN MINUTES)
+          //end: new Date('December 10, 2014 10:00'),
+          end: new Date(date),
+          //end: new Date(+date),     // You can also choose to set an end time.
+                                                    // If an end time is set, this will take precedence over duration
+          //address: 'San Jose',
+          address: locate,
+          description: 'Ride the bike for 2 hrs time.'
+        }
+      });
+      
+      document.querySelector('.new-cal').appendChild(myCalendar);
+      
+  </script>
+ 
+		<br/>
+		<br/>
+	
 		<h4 id="mess" style="display:none">Select a mode to receive the bike access code</h4>
 			<table id="sendmessage" style="display:none">
 			<tr>
@@ -259,10 +356,10 @@
 		</form:form>
 	</div>
 	
-	<!-- jQuery -->
+	<%-- <!-- jQuery -->
    
 	<script src="${pageContext.request.contextPath}/js/jquery.js"></script>
-	<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script> --%>
 
 </body>
 </html>
