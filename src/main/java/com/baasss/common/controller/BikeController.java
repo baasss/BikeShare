@@ -256,6 +256,190 @@ public String getStationMap(Model m) {
       m.addAttribute("bike10",no_of_bikes_available[9]); 
       return "StationMap";
 }
+
+@RequestMapping(value="/returnOrCancel", method = RequestMethod.GET)
+public String returnOrCancelBooking(User user, Model m)  {
+    m.addAttribute("user",new User());
+    m.addAttribute("location",new Location());  
+    return "ReturnOrCancel";
+}
+
+@RequestMapping(value="/returnOrCancel", method = RequestMethod.POST)
+public String afterReturnOrCancelBooking(User user, Model m)  {
+	String bike_taken=null;
+    m.addAttribute("user",new User());
+    m.addAttribute("location",new Location());  
+    
+    //retrieving bike_taken to check if the user has taken a bike or not
+    BasicDBObject searchQuery = new BasicDBObject();
+    searchQuery.put("username",user.Loggingusername);
+	DBCursor cursor = userCollection.find(searchQuery);
+	 while(cursor.hasNext())
+     {
+ 	 DBObject theUserObj=cursor.next();
+     BasicDBObject theBasicUserObject= (BasicDBObject)theUserObj;
+     bike_taken=theBasicUserObject.getString("bike_taken");
+     }
+	 //end
+	 
+	 //checking if the user exists or not
+	 if(bike_taken==null)
+	 {
+		 m.addAttribute("message","PLEASE CHECK THE USERNAME ENTERED!!"); 
+	 }
+	 //end
+	 
+	 else{
+	
+		 if(!(bike_taken.equals("false")))//check if user has taken the bike
+         {
+    	 //check if the hirer took from first slot
+    	 String temp=bike_taken+".fslot";
+    	 System.out.println("temp"+temp);
+         searchQuery=new BasicDBObject();
+         searchQuery.put("bikeavail",bike_taken);
+         searchQuery.put(temp,user.Loggingusername);
+         BasicDBObject fields = new BasicDBObject();
+ 	     fields.put(temp, 1);
+ 	     DBCursor cursorA=availCollection.find(searchQuery,fields);
+ 	    while(cursorA.hasNext())
+       {
+       DBObject theUserObj=cursorA.next();
+       BasicDBObject theBasicUserObject= (BasicDBObject)theUserObj;		
+       DBObject avail=(BasicDBObject) theBasicUserObject.get(bike_taken);
+       String u_name=(String)avail.get("fslot");
+        if(u_name.equals(user.Loggingusername))
+        {
+        	searchQuery=new BasicDBObject();
+            searchQuery.put("bikeavail",bike_taken);
+        	availCollection.update(searchQuery, new BasicDBObject("$set",new BasicDBObject(temp,"True")));
+        }
+       }
+ 	  //end
+ 	    
+ 	  //check if hirer took from second slot    
+ 	  temp=bike_taken+".sslot";
+ 	  searchQuery=new BasicDBObject();
+      searchQuery.put("bikeavail",bike_taken);
+      searchQuery.put(temp,user.Loggingusername);
+      fields = new BasicDBObject();
+	  fields.put(temp, 1);
+ 	  cursorA=availCollection.find(searchQuery,fields); 
+	  while(cursorA.hasNext())
+    {   
+    DBObject theUserObj=cursorA.next();
+    BasicDBObject theBasicUserObject= (BasicDBObject)theUserObj;		
+    DBObject avail=(BasicDBObject) theBasicUserObject.get(bike_taken);
+    String u_name=(String)avail.get("sslot");
+    if(u_name.equals(user.Loggingusername))
+     {
+     	searchQuery=new BasicDBObject();
+        searchQuery.put("bikeavail",bike_taken);
+     	availCollection.update(searchQuery, new BasicDBObject("$set",new BasicDBObject(temp,"True")));
+     }
+    }
+	//end
+	  
+	  //check if hirer took from third slot
+	    temp=bike_taken+".tslot";
+	    searchQuery=new BasicDBObject();
+        searchQuery.put("bikeavail",bike_taken);
+        searchQuery.put(temp,user.Loggingusername);
+        fields = new BasicDBObject();
+	    fields.put(temp, 1);
+	 	cursorA=availCollection.find(searchQuery,fields);
+	    while(cursorA.hasNext())
+	    {
+		System.out.println("inside while");
+	    DBObject theUserObj=cursorA.next();
+	    BasicDBObject theBasicUserObject= (BasicDBObject)theUserObj;		
+	    DBObject avail=(BasicDBObject) theBasicUserObject.get(bike_taken);
+	    String u_name=(String)avail.get("tslot");
+	    if(u_name.equals(user.Loggingusername))
+	     {
+	     	searchQuery=new BasicDBObject();
+	        searchQuery.put("bikeavail",bike_taken);
+	     	availCollection.update(searchQuery, new BasicDBObject("$set",new BasicDBObject(temp,"True")));
+	     }
+	    }
+        //end
+	    
+	    //finding the owner and location
+    	int startIndex = bike_taken.indexOf('-');
+    	System.out.println("indexOf(-) = " + startIndex);
+    	int endIndex = bike_taken.lastIndexOf('-');
+    	System.out.println("LastIndexOf(-) = " + endIndex);
+    	String str1=bike_taken.substring(startIndex + 1, endIndex);
+    	String[] splitString = str1.split("-");
+		String bike_owner = splitString[0];
+		bike_owner=bike_owner.toLowerCase();
+    	System.out.println(bike_owner);
+    	String location =splitString[1];
+    	System.out.println(location);
+    	//end
+
+    	//set the bike taken as false in user collection
+	    searchQuery=new BasicDBObject();
+        searchQuery.put("username",user.Loggingusername);
+     	BasicDBObject document = new BasicDBObject(); 
+        document.put("bike_taken","false");
+        userCollection.update(searchQuery,new BasicDBObject("$set",document));
+        //end
+  
+        //obtain phone number
+        searchQuery=new BasicDBObject();
+        searchQuery.put("username",bike_owner);
+        fields = new BasicDBObject();
+	    fields.put("mobileNo", 1);
+	    cursorA=userCollection.find(searchQuery,fields);
+	    DBObject theUserObj=cursorA.next();
+	    BasicDBObject theBasicUserObject= (BasicDBObject)theUserObj;		
+	    String phoneno=theBasicUserObject.getString("mobileNo");
+	    System.out.println(phoneno);
+	    //end
+	    
+	    //increment bikes in location
+	    searchQuery=new BasicDBObject();
+        searchQuery.put("Location_name",location);
+        fields = new BasicDBObject();
+	    fields.put("no_of_bikes_available", 1);
+	    cursorA=locationCollection.find(searchQuery,fields);
+	    theUserObj=cursorA.next();
+	    theBasicUserObject= (BasicDBObject)theUserObj;		
+	    int temp_available_bikes=theBasicUserObject.getInt("no_of_bikes_available")+1;
+	    document = new BasicDBObject(); 
+        document.put("no_of_bikes_available",temp_available_bikes);
+        locationCollection.update(searchQuery,new BasicDBObject("$set",document));
+        //end
+
+        //send a message to owner that bike is returned
+        System.out.println("inside sendmessage");
+		Message message = null;
+        TwilioRestClient client = new TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN);
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+	        params.add(new BasicNameValuePair("Body", "Your bike has been returned"));
+	        params.add(new BasicNameValuePair("To", "+1"+phoneno));
+	        params.add(new BasicNameValuePair("From", "+19714074127"));
+	        MessageFactory messageFactory = client.getAccount().getMessageFactory();
+	        try {
+				message = messageFactory.create(params);
+				m.addAttribute("successmessage","Bike access code is sent to your contact details");
+			} catch (TwilioRestException e) {
+				e.printStackTrace();
+			}
+	     //end
+	        
+     	m.addAttribute("message","SUCCESS!!");     
+     }
+     else
+     {
+    	 m.addAttribute("message","U HAVE NOT BOOKED ANY BIKE"); 
+     }
+	 }
+     
+	 return "ReturnOrCancel";
+}
+
 @RequestMapping(value="/Registration", method = RequestMethod.GET)
 public String regUser(Model m) {
 	
@@ -427,7 +611,7 @@ public String sendMessage(Location location, User user, Model m) {
 	
 	BasicDBObject searchUserQuery = new BasicDBObject();
 	searchUserQuery.put("username", loggedinuser);
-	DBCursor usercursor = userCollection.find(searchQuery);
+	DBCursor usercursor = userCollection.find(searchUserQuery);
 	while(usercursor.hasNext()){
 		DBObject theUserObj=usercursor.next();
         BasicDBObject theBasicUserObject= (BasicDBObject)theUserObj;

@@ -137,7 +137,16 @@
   </head>
   
   <body onload="findselected()">
+  <form:form action="/sessionLogout" method="post" modelAttribute="user" >
+   
+   	 <div style="position: absolute; top: 100; right: 100; width: 1000px; text-align:right;">
+    <label >${a}</label>
+    <input type="submit" value="Logout" id="submitbutton"/>
+  </div>
+	</form:form>
   <div class="brand">Payana</div>
+  
+  
     
 
     <!-- Navigation -->
@@ -160,17 +169,14 @@
                     <li>
                         <a href="home">Home</a>
                     </li>
-                    <li>
-                        <a href="login">Login</a>
-                    </li>
-                    <li>
-                        <a href="Registration">Register</a>
+                  <li>
+                        <a href="bookabike">Book a Bike</a>
                     </li>
                     <li>
                         <a href="StationMap">Station Map</a>
                     </li>
 					<li>
-                        <a href="contact.html">Share Your Bike</a>
+                        <a href="returnOrCancel">Return/Cancel Booking</a>
                     </li>
                 </ul>
             </div>
@@ -178,15 +184,9 @@
         </div>
         <!-- /.container -->
     </nav>
-   <div id="googleMap" style="width:1350px;height:380px;"></div>
-	<div id="container">
-    <form:form action="/sessionLogout" method="post" modelAttribute="user" >
-   
-   	 <div style="position: absolute; top: 0; right: 900; width: 1000px; text-align:right;">
-    <label >${a}</label>
-    <input type="submit" value="Logout" id="submitbutton"/>
-  </div>
-	</form:form>
+   <div id="googleMap" style="position: absolute; right:0px; width: 800px;height:380px;"></div>
+	<div id="container" style="position: absolute;top:200px; right:810px; width: 600px;height:380px;">
+    
     
 		
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">

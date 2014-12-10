@@ -40,16 +40,13 @@
                         <a href="home">Home</a>
                     </li>
                     <li>
-                        <a href="login">Login</a>
-                    </li>
-                    <li>
-                        <a href="Registration">Register</a>
+                        <a href="bookabike">Book a Bike</a>
                     </li>
                     <li>
                         <a href="StationMap">Station Map</a>
                     </li>
 					<li>
-                        <a href="contact.html">Share Your Bike</a>
+                        <a href="returnOrCancel">Return/Cancel Booking</a>
                     </li>
                 </ul>
             </div>

@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -11,6 +13,16 @@
     <!-- Bootstrap Core CSS -->
     <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/css/business-casual.css" rel="stylesheet">
+    
+    <script>
+     function initialize()
+     {
+      if(document.getElementById('unameInput').value == ""){
+    	alert("Values Missing!");
+    	return false;
+    }
+  }   
+    </script> 
 </head> 
 <style>
     	body { background-color: #eee; font: helvetica; }
@@ -43,7 +55,7 @@
                     </li>
 
                     <li>
-                        <a href="bookabike">Station Map</a>
+                        <a href="StationMap">Station Map</a>
                     </li>
 					<li>
                         <a href="returnOrCancel">Return/Cancel Booking</a>
@@ -54,59 +66,17 @@
         </div>
         <!-- /.container -->
     </nav>
-
-  <div id="map" style="width: 1350px; height: 400px;"></div>
-
-   <script type="text/javascript">
-    var locations = [
-      ['SANJOSE', 37.3333, -121.9, "${bike1}"],
-      ['MILPITAS',37.432334 ,-121.899574 , "${bike2}"],
-      ['SUNNYVALE', 37.3711, -122.0375, "${bike3}"],
-      ['FRUITDALE', 37.3128, -121.9358, "${bike4}"],
-      ['SANTACLARA', 37.3544, -121.9696, "${bike5}"],
-      ['CUPERTINO', 37.32298, -122.032182, "${bike6}"],
-      ['SARATOGA', 37.263832, -122.023015, "${bike7}"],
-      ['LOSGATOS', 37.235808, -121.962375, "${bike8}"],
-      ['PALOALTO', 37.441883, -122.143019, "${bike9}"],
-      ['SANCARLOS', 37.507159, -122.260522, "${bike10}"]
-      
-    ];
+<div id="container">
+ <h2>RETURN OR CANCEL BOOKING</h2>
+   <c:if test="${not empty message}"><div class="message green">${message}</div></c:if>
+	<form:form action="/returnOrCancel" method="post" modelAttribute="user" onsubmit="return initialize()">
+	<h4>Username: </h4>
+	<form:input path="Loggingusername" id="unameInput" ></form:input></br></br>
 	
- 
-	
-var map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 10,
-      center: new google.maps.LatLng(37.3333,-121.9000),
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    });
-	
-
-	
-var infowindow = new google.maps.InfoWindow({
-  });
-
-    var marker, i;
-
-    for (i = 0; i < locations.length; i++) {  
-      marker = new google.maps.Marker({
-        position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-        map: map
-      });
-
-      google.maps.event.addListener(marker, 'click', (function(marker, i) {
-        return function() {
-        	var content='<div class = "MarkerPopUp" style="width: 200px;"><div class = "MarkerContext">'+'<p><center>'+locations[i][0]+'</center>'+'<br>'+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AVAILABLE BIKES = '+locations[i][3]+'</p>'+'</div></div>';
-          infowindow.setContent(content);
-		  infowindow.open(map, marker);
-        }
-      })(marker, i));
-    }
-  </script> 
-<!-- jQuery -->
-   
-	<script src="${pageContext.request.contextPath}/js/jquery.js"></script>
-	<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
-    <!-- Script to Activate the Carousel -->
+	<input type="submit" value="Submit" id="Submit"  />
+	&nbsp;
+	</form:form>	
+</div>
   
 </body>
 </html>
