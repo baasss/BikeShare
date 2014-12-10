@@ -30,7 +30,8 @@ public class User {
 	}
 	public void setLocationInput(String locIn) {
 		locationInput = locIn;
-		
+		System.out.println(locIn);
+		System.out.println(locationInput);
 	}
 	public String getSelslot() {
 		return selslot;

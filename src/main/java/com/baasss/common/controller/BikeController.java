@@ -1,7 +1,5 @@
 package com.baasss.common.controller;
 
-import java.util.Random;
-
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -216,36 +214,16 @@ public String register(User user, Model m)
 	if (!db.collectionExists(User)) {
 	    db.createCollection(User, new BasicDBObject());
 	  }
-	boolean found = false;
+	
 	userCollection = db.getCollection("User");
 	BasicDBObject document = new BasicDBObject();
-	BasicDBObject searchQuery = new BasicDBObject();
-	searchQuery.put("username",user.username);
-	System.out.println(user.username);
-	 DBCursor cursor = userCollection.find(searchQuery);
-	 if(cursor.hasNext()) {
-		 		
-		 found = true;
-		 m.addAttribute("found",found);
-			
-		   return "Registration";
-	   }
 	document.put("name",user.name);
 	document.put("email",user.email);
 	document.put("username",user.username);
 	document.put("password",user.password);
 	document.put("mobileNo",user.mobileNo);
-	document.put("bike_taken","false");
-	document.put("Location_name",user.locationInput);
-	Random rn = new Random();
-	int number ;
-	number = rn.nextInt(2000);
-	document.put("bikeaccesscode",number);
-	int id;
-	id = rn.nextInt(100);
-	String bikeId = ("BIKE-"+user.username+"-"+id);
-	System.out.println(bikeId);
-	document.put("bike_id",bikeId);
+	
+	
 	userCollection.insert(document);
 
 	   return "home";
@@ -314,7 +292,10 @@ public String validateLogin(HttpServletRequest request,HttpServletResponse respo
 	    return "login";
 	}
 	else{
-
+//uri=new MongoClientURI(link);
+//mongoClient = new MongoClient(uri);
+//db = mongoClient.getDB("bikesharedb");
+//locationCollection = db.getCollection("User");
 BasicDBObject searchQuery = new BasicDBObject();
 searchQuery.put("username",user.Loggingusername);
 searchQuery.put("password",user.Loggingpassword);

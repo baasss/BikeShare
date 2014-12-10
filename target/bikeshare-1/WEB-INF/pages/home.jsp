@@ -1,19 +1,53 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE HTML>
+
+<% 
+	response.setHeader("Cache-Control", "no-cache,no-store,private,must-revalidate,max-stale=0,post-check=0,pre-check=0"); // HTTP 1.1.
+	response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+	response.setDateHeader("Expires", 0); // Proxies.
+%>
+
+<%
+	
+	
+	Cookie[] cookies = request.getCookies();
+	boolean flag=false;
+	if(cookies !=null)
+	{
+	
+			for(Cookie cookie : cookies)
+			{
+				String username = null;
+    			if(cookie.getName().equals("user")) 
+    			{
+    				System.out.println("test "+cookie.getName());
+    				username = cookie.getValue();
+					System.out.println("test "+username);
+					flag= true;
+    			}
+    		}
+	}
+	
+	if(!(flag)) 
+	{
+	System.out.println("no cookie");
+	response.sendRedirect("/bikeshare-1/login");
+	}
+%>
+
+
 <html>
 
   <head>
     <title>Bike Share</title>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <!-- Bootstrap Core CSS -->
+    <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/css/business-casual.css" rel="stylesheet">
     <style>
     	body { background-color: #eee; font: helvetica; }
     	#container { width: 500px; background-color: #fff; margin: 30px auto; padding: 30px; border-radius: 5px; }
-    	.green { font-weight: bold; color: blue; }
-    	.message { margin-bottom: 10px; }
-    	label {width:70px; display:inline-block;}
-    	form {line-height: 160%; }
-    	.hide { display: none; }
     </style>
     <head>
     <script
@@ -72,10 +106,58 @@
   </head>
   
   <body onload="findselected()">
+  <div class="brand">Bike Share</div>
+    
 
+    <!-- Navigation -->
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!-- navbar-brand is hidden on larger screens, but visible when the menu is collapsed -->
+                <a class="navbar-brand" href="index.html">Techno Trends</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="home">Home</a>
+                    </li>
+                    <li>
+                        <a href="login">Login</a>
+                    </li>
+                    <li>
+                        <a href="Registration">Register</a>
+                    </li>
+                    <li>
+                        <a href="StationMap">Station Map</a>
+                    </li>
+					<li>
+                        <a href="contact.html">Share Your Bike</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
    <div id="googleMap" style="width:1350px;height:380px;"></div>
 	<div id="container">
     <h2>BIKE SHARE</h2>
+ <form:form action="/sessionLogout" method="post" modelAttribute="user" >
+   
+   	 <div style="position: absolute; top: 0; right: 900; width: 1000px; text-align:right;">
+    <label >${a}</label>
+    <input type="submit" value="Logout" id="submitButton"/>
+  </div>
+	</form:form>
+ 
 		<c:if test="${not empty message}"><div class="message green">${successmessage}</div></c:if>
 		
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
@@ -140,6 +222,11 @@
 			
 		</form:form>
 	</div>
+	
+	<!-- jQuery -->
+   
+	<script src="${pageContext.request.contextPath}/js/jquery.js"></script>
+	<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 
 </body>
 </html>

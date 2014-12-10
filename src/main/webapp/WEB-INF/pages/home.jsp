@@ -42,14 +42,12 @@
   <head>
     <title>Bike Share</title>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <!-- Bootstrap Core CSS -->
+    <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/css/business-casual.css" rel="stylesheet">
     <style>
     	body { background-color: #eee; font: helvetica; }
     	#container { width: 500px; background-color: #fff; margin: 30px auto; padding: 30px; border-radius: 5px; }
-    	.green { font-weight: bold; color: blue; }
-    	.message { margin-bottom: 10px; }
-    	label {width:70px; display:inline-block;}
-    	form {line-height: 160%; }
-    	.hide { display: none; }
     </style>
     <head>
     <script
@@ -108,7 +106,47 @@
   </head>
   
   <body onload="findselected()">
+  <div class="brand">Bike Share</div>
+    
 
+    <!-- Navigation -->
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!-- navbar-brand is hidden on larger screens, but visible when the menu is collapsed -->
+                <a class="navbar-brand" href="index.html">Techno Trends</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="home">Home</a>
+                    </li>
+                    <li>
+                        <a href="login">Login</a>
+                    </li>
+                    <li>
+                        <a href="Registration">Register</a>
+                    </li>
+                    <li>
+                        <a href="StationMap">Station Map</a>
+                    </li>
+					<li>
+                        <a href="contact.html">Share Your Bike</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
    <div id="googleMap" style="width:1350px;height:380px;"></div>
 	<div id="container">
     <h2>BIKE SHARE</h2>
@@ -184,6 +222,11 @@
 			
 		</form:form>
 	</div>
+	
+	<!-- jQuery -->
+   
+	<script src="${pageContext.request.contextPath}/js/jquery.js"></script>
+	<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 
 </body>
 </html>
