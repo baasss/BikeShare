@@ -1,5 +1,7 @@
 package com.baasss.common.model;
 
+import java.util.Date;
+
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "User")
@@ -13,25 +15,46 @@ public class User {
 	public String username;
 	public String password;
 	public String mobileNo;
-	public String bikes_owned;
 	public String selslot;
 	public String sendcode;
+	private String bike_id;
+	private Date preffered_date;
+	private String selbike;
 	public String confpassword;
 	public String locationInput;
 	
 	public String getConfpassword() {
 		return confpassword;
 	}
-	public void setConfpassword(String cnfpwd) {
-	confpassword = cnfpwd;
+	public void setConfpassword(String confpassword) {
+		this.confpassword = confpassword;
 	}
 	public String getLocationInput() {
 		return locationInput;
 	}
-	public void setLocationInput(String locIn) {
-		locationInput = locIn;
-		System.out.println(locIn);
-		System.out.println(locationInput);
+	public void setLocationInput(String locationInput) {
+		this.locationInput = locationInput;
+	}
+
+
+	
+	public String getSelbike() {
+		return selbike;
+	}
+	public void setSelbike(String selbike) {
+		this.selbike = selbike;
+	}
+	public Date getPreffered_date() {
+		return preffered_date;
+	}
+	public void setPreffered_date(Date preffered_date) {
+		this.preffered_date = preffered_date;
+	}
+	public String getBike_id() {
+		return bike_id;
+	}
+	public void setBike_id(String bike_id) {
+		this.bike_id = bike_id;
 	}
 	public String getSelslot() {
 		return selslot;
@@ -58,24 +81,13 @@ public class User {
 	public void setLoggingpassword(String pwdLogin) {
 		Loggingpassword = pwdLogin;
 	}
-	public String getBikes_owned() {
-		return bikes_owned;
-	}
-	public void setBikes_owned(String owned) {
-		bikes_owned = owned;
-	}
+
 	public String getName() {
 		return name;
 	}
 	public void setName(String n) {
 		name = n;
-	/*	System.out.println("name n:");
-		System.out.println(n);
-		System.out.println("name:");
-		System.out.println(name);
-		System.out.printf("set name::",name);
-		System.out.println();
-		*/
+
 	}
 	public String getEmail() {
 		return email;
@@ -83,15 +95,7 @@ public class User {
 	public void setEmail(String e) {
 		
 		email = e;
-	/*	System.out.println("name e:");
-		System.out.println(e);
-		System.out.println("email:");
-		System.out.println(email);
-		System.out.printf("set email::",email);
-		System.out.println();
-		System.out.printf("this.email======",email);
-		System.out.println();
-		*/
+
 	}
 	public String getUsername() {
 		return username;

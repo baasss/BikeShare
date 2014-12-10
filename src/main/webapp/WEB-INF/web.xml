@@ -27,5 +27,10 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
+	
+	<error-page>
+    <error-code>500</error-code>
+    <location>/Failure.jsp</location>
+	</error-page>
 
 </web-app>

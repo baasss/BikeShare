@@ -1,115 +1,25 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<!DOCTYPE HTML>
-
-<% 
-	response.setHeader("Cache-Control", "no-cache,no-store,private,must-revalidate,max-stale=0,post-check=0,pre-check=0"); // HTTP 1.1.
-	response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
-	response.setDateHeader("Expires", 0); // Proxies.
-%>
-
-<%
-	
-	
-	Cookie[] cookies = request.getCookies();
-	boolean flag=false;
-	if(cookies !=null)
-	{
-	
-			for(Cookie cookie : cookies)
-			{
-				String username = null;
-    			if(cookie.getName().equals("user")) 
-    			{
-    				System.out.println("test "+cookie.getName());
-    				username = cookie.getValue();
-					System.out.println("test "+username);
-					flag= true;
-    			}
-    		}
-	}
-	
-	if(!(flag)) 
-	{
-	System.out.println("no cookie");
-	response.sendRedirect("/bikeshare-1/login");
-	}
-%>
-
-
-<html>
-
-  <head>
-    <title>Bike Share</title>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html> 
+<head> 
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" /> 
+  <title>Google Maps Multiple Markers</title> 
+  <script src="http://maps.google.com/maps/api/js?sensor=false" 
+          type="text/javascript"></script> 
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <!-- Bootstrap Core CSS -->
     <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/css/business-casual.css" rel="stylesheet">
-    <style>
+</head> 
+<style>
     	body { background-color: #eee; font: helvetica; }
     	#container { width: 500px; background-color: #fff; margin: 30px auto; padding: 30px; border-radius: 5px; }
     </style>
-    <head>
-    <script
-    src="http://maps.googleapis.com/maps/api/js?key=AIzaSyClkmSPNsPZPdqGrcVnsvakV7HeslxbgRY&sensor=false">
-    </script>
-
-
-    <script>
-    function initialize()
-    {
-    if(document.getElementById('LocationSelect').value == ""){	
-	    var mapProp = {
-	    center:new google.maps.LatLng(37.3333,-121.9000),
-	    zoom:14,
-	    mapTypeId:google.maps.MapTypeId.ROADMAP
-	      };
-    }else{
-	    var mapProp = {
-	    center:new google.maps.LatLng("${latitude}","${longitude}"),
-	    zoom:14,
-	    mapTypeId:google.maps.MapTypeId.ROADMAP
-	      };
-    }
-    var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
-    var myLatlng = new google.maps.LatLng("${latitude}","${longitude}");
-    
-    var marker = new google.maps.Marker({
-          position: myLatlng,
-          map: map,
-          title: 'bike stand'
-      });
-    if(document.getElementById('LocationSelect').value != ""){
-    	document.getElementById('datepicker').disabled = false;
-    }
-    if(document.getElementById('datepicker').value != ""){
-    	document.getElementById("availtable").style.display = "block"; 
-    	document.getElementById("mess").style.display = "block"; 
-    	document.getElementById("sendmessage").style.display = "block";
-    	document.getElementById("submitButton").style.display = "block";
-        if(document.getElementById('firstSlot').value == "True"){
-        	document.getElementById("fs").style.display = "block";
-        }
-        if(document.getElementById('secondSlot').value == "True"){
-        	document.getElementById("ss").style.display = "block";
-        }
-        if(document.getElementById('thirdSlot').value == "True"){
-        	document.getElementById("ts").style.display = "block";
-        }
-    }
-
-}
-
-    google.maps.event.addDomListener(window, 'load', initialize);
-    </script>
-
-  </head>
-  
-  <body onload="findselected()">
-  <div class="brand">Bike Share</div>
-    
-
-    <!-- Navigation -->
+<body>
+<div class="brand">Payana - The Journey</div><h1 class="brand-name"> </h1>
+                    
+ <!-- Navigation -->
     <nav class="navbar navbar-default" role="navigation">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -147,86 +57,66 @@
         </div>
         <!-- /.container -->
     </nav>
-   <div id="googleMap" style="width:1350px;height:380px;"></div>
-	<div id="container">
-    <h2>BIKE SHARE</h2>
- <form:form action="/sessionLogout" method="post" modelAttribute="user" >
-   
-   	 <div style="position: absolute; top: 0; right: 900; width: 1000px; text-align:right;">
-    <label >${a}</label>
-    <input type="submit" value="Logout" id="submitButton"/>
-  </div>
-	</form:form>
- 
-		<c:if test="${not empty message}"><div class="message green">${successmessage}</div></c:if>
-		
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+    <div class="container">
 
-  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+        <div class="row">
+            <div class="box">
+                <div class="col-lg-12 text-center">
+                    <div id="carousel-example-generic" class="carousel slide">
+                        <!-- Indicators -->
+                        <ol class="carousel-indicators hidden-xs">
+                            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                            <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                            <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                            <li data-target="#carousel-example-generic" data-slide-to="3"></li>
+                            <li data-target="#carousel-example-generic" data-slide-to="4"></li>
+                        </ol>
 
-  <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+                        <!-- Wrapper for slides -->
+                        <div class="carousel-inner">
+                            <div class="item active">
+                                
+<iframe width="100%" height="550" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps?hl=en&amp;ie=UTF8&amp;ll=37.0625,-95.677068&amp;spn=56.506174,79.013672&amp;t=m&amp;z=4&amp;output=embed"></iframe>
 
-  <link rel="stylesheet" href="/resources/demos/style.css ">
+                            </div>
+                            <div class="item">
+                                <img class="img-responsive img-half" src="img/slide-2.jpg" alt="">
+                            </div>
+                            <div class="item">
+                                <img class="img-responsive img-full" src="img/slide-3.jpg" alt="">
+                            </div>
+                             <div class="item">
+                                <img class="img-responsive img-half" src="img/slide-4.jpg" alt="">
+                            </div>
+                            <div class="item">
+                                <img class="img-responsive img-full" src="img/slide-5.jpg" alt="">
+                            </div>
+                        </div>
 
-  <script>
+                        <!-- Controls -->
+                        <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                            <span class="icon-prev"></span>
+                        </a>
+                        <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                            <span class="icon-next"></span>
+                        </a>
+                    </div>
+                    
+                    <h2>
+                        <small>By
+                            <strong>Team Baass</strong>
+                        </small>
+                    </h2>
+                </div>
+            </div>
+        </div>
 
-  $(function() {
-
-    $( "#datepicker" ).datepicker({
-        minDate: '0d',
-        maxDate: '+1d'
-    });
-
-  });
-
-  </script>
-
-		<form:form modelAttribute="location" action="/loadmap" >
-			<label for="LocationSelect">Location:</label>
-			<form:select path="location" id="LocationSelect" onchange="this.form.submit()">
-				<form:option value="">Select the nearest location: </form:option>
-				<c:forEach items="${locations}" var="location1">
-					<form:option value="${location1}">${location1}</form:option>
-				</c:forEach>
-			</form:select>
-			<br/>
-			<p>Date: <form:input type="text" path="preffered_date" id="datepicker" value="${preffered_date}" onchange="this.form.submit()"
-										disabled="true"></form:input></p>
-			<input id="firstSlot" type="hidden" value="${firstSlot}"/>
-			<input id="secondSlot" type="hidden" value="${secondSlot}"/>
-			<input id="thirdSlot" type="hidden" value="${thirdSlot}"/>
-		</form:form>
-<form:form id="user" modelAttribute="user" action="/sendcode">
-	
-		<table id="availtable" style="display:none">
-			<tr>
-				<td>${bikeid}</td>
-				<td id="fs" style="display:none"><input type="radio" name="selslot" value="fslot" checked="checked">08AM to 10AM</td>
-				<td id="ss" style="display:none"><input type="radio" name="selslot" value="sslot">10AM to 12PM</td>
-				<td id="ts" style="display:none"><input type="radio" name="selslot" value="tslot">12PM to 2PM</td>
-			</tr>
-
-		</table>
-		
-		
-		
-		<h4 id="mess" style="display:none">Select a mode to receive the bike access code</h4>
-			<table id="sendmessage" style="display:none">
-			<tr>
-				<td><input type="radio" name="sendcode" value="sendmessage" checked="checked">Message</td>
-				<td><input type="radio" name="sendcode" value="sendmail">Mail</td>
-			</tr>
-
-		</table>
-			<input style="display:none" type="submit" value="Submit" id="submitButton"/>
-			
-		</form:form>
-	</div>
-	
-	<!-- jQuery -->
+    </div>
+<!-- jQuery -->
    
 	<script src="${pageContext.request.contextPath}/js/jquery.js"></script>
 	<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
-
+    <!-- Script to Activate the Carousel -->
+  
 </body>
 </html>

@@ -132,6 +132,6 @@
 		</plugins>
 	</build>
 	<packaging>war</packaging>
-	<artifactId>bikeshare</artifactId>
-	<version>1</version>
+	<artifactId>payana</artifactId>
+	<version>thejourney</version>
 </project>

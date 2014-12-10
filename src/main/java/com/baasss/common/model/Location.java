@@ -11,7 +11,16 @@ public class Location {
 	private int no_of_bikes_available;
 	private String location_name;
 	private Date preffered_date;
+	private String hiddenvalue;
 	
+	public String getHiddenvalue() {
+		return hiddenvalue;
+	}
+
+	public void setHiddenvalue(String hiddenvalue) {
+		this.hiddenvalue = hiddenvalue;
+	}
+
 	public Date getPreffered_date() {
 		return preffered_date;
 	}

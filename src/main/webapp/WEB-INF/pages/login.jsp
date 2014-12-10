@@ -1,4 +1,4 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,7 +11,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Bike Share</title>
+    <title>Payana</title>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <!-- Bootstrap Core CSS -->
     <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
@@ -20,6 +20,11 @@
 <style>
     	body { background-color: #eee; font: helvetica; }
     	#container { width: 500px; background-color: #fff; margin: 30px auto; padding: 30px; border-radius: 5px; }
+    	.green { font-weight: bold; color: blue; }
+    	.message { margin-bottom: 10px; }
+    	label {width:70px; display:inline-block;}
+    	form {line-height: 160%; }
+    	.hide { display: none; }
     </style>
    
 
@@ -45,9 +50,9 @@
      }
     
     </script>
+    
 <body>
-
-    <div class="brand">Bike Share</div>
+    <div class="brand">Payana</div>
     
 
     <!-- Navigation -->
@@ -88,10 +93,10 @@
         </div>
         <!-- /.container -->
     </nav>
-
-    <div id="container">
+<div id="container">
 	<center>
-	<form:form method="post" action="/validating"  commandName="user">
+   
+	<form:form action="/validating" method="post" modelAttribute="user" onsubmit="return initialize()">
 	<table cellspacing="10" cellpadding="10">
 	<tr>
 	<td>
@@ -118,7 +123,7 @@
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	</td>
 	<td>
-	<form:input path="Loggingpassword" id="pwdInput"></form:input>
+	<form:input path="Loggingpassword" id="pwdInput" type = "password"></form:input></br></br>
  	</td>
 	</tr>
 	
@@ -135,6 +140,8 @@
 	</tr>
 	
 	</table>
+	&nbsp;
+	<a href ="http://localhost:8080/payana-thejourney/Registration"><span><input type="button" value="Register"></span></a>
 	
 	</form:form>
 	</center>

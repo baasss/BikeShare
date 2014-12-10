@@ -27,7 +27,6 @@
     <mvc:resources mapping="/img/**" location="/resources/img/"/>
     <mvc:resources mapping="/js/**" location="/resources/js/"/>	
 
-
 </beans>
 
 

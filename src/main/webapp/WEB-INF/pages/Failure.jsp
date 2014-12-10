@@ -1,7 +1,7 @@
 
 <html>
 <body>
-<h2>Invalid phone number or Message cannot be delivered</h2> <br/>
+<h2>Check your Internet connection and try again</h2> <br/>
 
 </body>
 </html>

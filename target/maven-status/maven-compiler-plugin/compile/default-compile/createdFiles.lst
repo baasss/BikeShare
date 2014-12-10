@@ -1,8 +1,6 @@
-com\baasss\common\controller\BikeController.class
-com\baasss\common\model\Bike.class
-com\baasss\common\model\Bike$Frequency.class
-com\baasss\common\model\Location$Frequency.class
-com\baasss\common\config\SpringMongoConfig.class
-com\baasss\common\mail\Email.class
-com\baasss\common\model\User.class
-com\baasss\common\model\Location.class
+com/baasss/common/model/Location.class
+com/baasss/common/controller/BikeController.class
+com/baasss/common/model/User.class
+com/baasss/common/config/SpringMongoConfig.class
+com/baasss/common/mail/Email.class
+com/baasss/common/model/Location$Frequency.class
