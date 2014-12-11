@@ -1,7 +1,7 @@
 
 <html>
 <body>
-<h2>Check your Internet connection and try again</h2> <br/>
+<h2>Ooops! Something is wrong. Try again - Team BAASS</h2> <br/>
 
 </body>
 </html>

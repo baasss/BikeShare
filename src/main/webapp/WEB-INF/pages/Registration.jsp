@@ -11,7 +11,7 @@
    
     
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <title>Payana</title>
+    <title>Payana - The Journey </title>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <!-- Bootstrap Core CSS -->
     <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
@@ -96,7 +96,7 @@
     
     </script>
 <body>
-<div class="brand">Payana</div>
+<div class="brand">Payana - The Journey</div>
     
 
     <!-- Navigation -->
@@ -110,8 +110,6 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <!-- navbar-brand is hidden on larger screens, but visible when the menu is collapsed -->
-                <a class="navbar-brand" href="index.html">Techno Trends</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -139,23 +137,23 @@
     <c:if test="${found}">  <h2>Username already taken. Enter new details!</h2>  </c:if>
 	<form:form id="form" action="/registered" method="post" modelAttribute="user" onsubmit="return initialize()">
 	<h4>Name: </h4>
-	<form:input path="name" id="nameInput"></form:input></br></br>
+	<form:input path="name" id="nameInput" style="position: relative; top: -30px; left:220px; text-align:right;"></form:input></br></br>
 	<h4>Email: </h4>
-	<form:input path="email" id="mailInput"></form:input></br></br>
+	<form:input path="email" id="mailInput" style="position: relative; top: -30px; left:220px; text-align:right;"></form:input></br></br>
 	<h4>Username: </h4>
-	<form:input path="username" ></form:input></br></br>
+	<form:input path="username" style="position: relative; top: -30px; left:220px; text-align:right;"></form:input></br></br>
 	<h4>Password: </h4>
-	<form:input path="password" type = "password" id="pwdinput"></form:input></br></br>
+	<form:input path="password" type = "password" id="pwdinput" style="position: relative; top: -30px; left:220px; text-align:right;"></form:input></br></br>
 	<h4>Confirm Password: </h4>
-	<form:input path="confpassword" type = "password" id="cnfpwdinput"></form:input></br></br>
+	<form:input path="confpassword" type = "password" id="cnfpwdinput" style="position: relative; top: -30px; left:220px; text-align:right;"></form:input></br></br>
 	<h4>Mobile Number:  </h4>
-	<form:input path="mobileNo" id="mobileInput"></form:input></br></br>
+	<form:input path="mobileNo" id="mobileInput" style="position: relative; top: -30px; left:220px; text-align:right;"></form:input></br></br>
 
 <h4>Bike Access Code:  </h4>
-	<form:input path="accCode" id="accCodeInput"></form:input></br></br>
+	<form:input path="accCode" id="accCodeInput" style="position: relative; top: -30px; left:220px; text-align:right;"></form:input></br></br>
 	<h4>Location:  </h4>
 	
-			<form:select path="locationInput" id="LocationSelect" >
+			<form:select path="locationInput" id="LocationSelect" style="position: relative; top: -30px; left:220px; text-align:right;">
 				<form:option value="">Select the  location: </form:option>
 				<c:forEach items="${locations}" var="location1">
 					<form:option value="${location1}">${location1}</form:option>

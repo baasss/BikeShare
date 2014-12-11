@@ -29,7 +29,7 @@
     	#container { width: 500px; background-color: #fff; margin: 30px auto; padding: 30px; border-radius: 5px; }
     </style>
 <body>
-<div class="brand">Bike Share</div>
+<div class="brand">Payana - The Journey</div>
  <!-- Navigation -->
     <nav class="navbar navbar-default" role="navigation">
         <div class="container">
@@ -41,8 +41,6 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <!-- navbar-brand is hidden on larger screens, but visible when the menu is collapsed -->
-                <a class="navbar-brand" href="index.html">Techno Trends</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -67,15 +65,17 @@
         <!-- /.container -->
     </nav>
 <div id="container">
- <h2>RETURN OR CANCEL BOOKING</h2>
+ 
    <c:if test="${not empty message}"><div class="message green">${message}</div></c:if>
+   <c:if test="${empty message }">
+   <h2>ENTER YOUR USERNAME</h2>
 	<form:form action="/returnOrCancel" method="post" modelAttribute="user" onsubmit="return initialize()">
-	<h4>Username: </h4>
 	<form:input path="Loggingusername" id="unameInput" ></form:input></br></br>
 	
 	<input type="submit" value="Submit" id="Submit"  />
 	&nbsp;
-	</form:form>	
+	</form:form>
+	</c:if>	
 </div>
   
 </body>

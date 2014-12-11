@@ -255,7 +255,8 @@ public String getStationMap(Model m) {
       m.addAttribute("bike7",no_of_bikes_available[6]);
       m.addAttribute("bike8",no_of_bikes_available[7]);
       m.addAttribute("bike9",no_of_bikes_available[8]);
-      m.addAttribute("bike10",no_of_bikes_available[9]); 
+      m.addAttribute("bike10",no_of_bikes_available[9]);
+      //m.addAttribute("a",user.Loggingusername);
       return "StationMap";
 }
 
@@ -431,7 +432,7 @@ public String afterReturnOrCancelBooking(User user, Model m)  {
 			}
 	     //end
 	        
-     	m.addAttribute("message","SUCCESS!!");     
+     	m.addAttribute("message","You have successfully returned the bike");     
      }
      else
      {
@@ -492,7 +493,7 @@ public String register(User user, Model m)
 	BasicDBObject doc = new BasicDBObject();
 	String bikeId = ("BIKE-"+user.username.toUpperCase()+"-"+user.locationInput);
 	System.out.println(bikeId);
-	
+	document.put("bike_id", bikeId);
 	BasicDBObject bikeIdquery = new BasicDBObject();
 	bikeIdquery.put("Location_name",user.locationInput);
 	
@@ -709,7 +710,7 @@ public String sendMessage(Location location, User user, Model m) {
 				   "Bike access code", 
 				   "Use below code to unlock the bike \n\n "+bikeaccesscode);
 		m.addAttribute("successmessage","Bike access code is sent to your contact details");
-		sendMessageToOwner(bikeDate, phoneno, loggedinuser, ownername, ownerlocation);
+		sendMessageToOwner(bikeDate, phoneno, loggedinuser, ownername, ownerlocation, m);
 		return "bookabike";
 		
 	}else if(user.getSendcode().equals("sendmessage")){
@@ -726,27 +727,27 @@ public String sendMessage(Location location, User user, Model m) {
 			try {
 				message = messageFactory.create(params);
 				m.addAttribute("successmessage","Bike access code is sent to your contact details");
-				sendMessageToOwner(bikeDate, phoneno, loggedinuser, ownername, ownerlocation);
+				String errorsendingmail = sendMessageToOwner(bikeDate, phoneno, loggedinuser, ownername, ownerlocation, m);
+				if(errorsendingmail.equals("bookabike"));
+				return "bookabike";
 			} catch (TwilioRestException e) {
-				 //TODO Auto-generated catch block
-				e.printStackTrace();
+				m.addAttribute("successmessage","Could not send the message to the provided phone number");
+				return "bookabike";
 			}
-			if(message == null) return "Failure";
-		    else return "bookabike";
 	}
 	m.addAttribute("successmessage","Bike access code could not be sent");
 	return "Failure";
 	
 	}
 
-public void sendMessageToOwner(String bikeidDate, String phoneno, String username, String ownername, String ownerlocation){
+public String sendMessageToOwner(String bikeidDate, String phoneno, String username, String ownername, String ownerlocation, Model m){
 	TwilioRestClient client = new TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN);
     
     List<NameValuePair> params = new ArrayList<NameValuePair>();
     params.add(new BasicNameValuePair("Body", "Your bike is rented "+ username));
     params.add(new BasicNameValuePair("To", "+1"+phoneno));
     params.add(new BasicNameValuePair("From", "+19714074127"));
-	
+ 
     MessageFactory messageFactory = client.getAccount().getMessageFactory();
     
 	try {
@@ -758,11 +759,12 @@ public void sendMessageToOwner(String bikeidDate, String phoneno, String usernam
 		BasicDBObject account = new BasicDBObject("$set", setDoc);
 		userCollection.update(change, account);
 		
-		
 	} catch (TwilioRestException e) {
 		 //TODO Auto-generated catch block
-		e.printStackTrace();
+		m.addAttribute("noavailablebikes","Could not send message to the owner!!");
+		return "bookabike";
 	}
+	return ownerlocation;
 }
 
 }

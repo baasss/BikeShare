@@ -11,7 +11,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Payana</title>
+    <title>Payana - The Journey</title>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <!-- Bootstrap Core CSS -->
     <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
@@ -52,7 +52,7 @@
     </script>
     
 <body>
-    <div class="brand">Payana</div>
+    <div class="brand">Payana - The Journey</div>
     
 
     <!-- Navigation -->
@@ -74,6 +74,9 @@
                 <ul class="nav navbar-nav">
                     <li>
                         <a href="home">Home</a>
+                    </li>
+                    <li>
+                        <a href="Registration">Register</a>
                     </li>
                     <li>
                         <a href="bookabike">Book a bike</a>
@@ -131,14 +134,15 @@
 	
 	</tr>
 	<tr>
-	<td colspan="2" align="center">
-	<input type="submit" value="Submit" id="Submit"  />
+	<td colspan="5" align="center">
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input type="submit" value="Submit" id="Submit"  /> &nbsp;
 	</td>
 	</tr>
 	
 	</table>
-	&nbsp;
-	<a href ="http://localhost:8080/payana-thejourney/Registration"><span><input type="button" value="Register"></span></a>
+	
+	
 	
 	</form:form>
 	</center>

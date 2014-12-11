@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -17,7 +19,12 @@
     	#container { width: 500px; background-color: #fff; margin: 30px auto; padding: 30px; border-radius: 5px; }
     </style>
 <body>
-<div class="brand">Bike Share</div>
+
+
+
+
+
+<div class="brand">Payana-The Journey</div>
  <!-- Navigation -->
     <nav class="navbar navbar-default" role="navigation">
         <div class="container">
@@ -43,7 +50,7 @@
                     </li>
 
                     <li>
-                        <a href="bookabike">Station Map</a>
+                        <a href="StationMap">Station Map</a>
                     </li>
 					<li>
                         <a href="returnOrCancel">Return/Cancel Booking</a>

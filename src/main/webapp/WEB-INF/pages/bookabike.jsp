@@ -31,14 +31,14 @@
 	if(!(flag)) 
 	{
 	System.out.println("no cookie");
-	response.sendRedirect("/payana-thejourney/login");
+	response.sendRedirect("/payana/login");
 	}
 %>
 
 <html>
 
   <head>
-    <title>Payana</title>
+    <title>Payana - The Journey</title>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <!-- Bootstrap Core CSS -->
     <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
@@ -146,12 +146,12 @@
   <body onload="findselected()">
   <form:form action="/sessionLogout" method="post" modelAttribute="user" >
    
-   	 <div style="position: absolute; top: 100; right: 100; width: 1000px; text-align:right;">
+   	 <div style="position: absolute; top: 93px; right: 50px; width: 1000px; text-align:right;">
     <label >${a}</label>
     <input type="submit" value="Logout" id="submitbutton"/>
   </div>
 	</form:form>
-  <div class="brand">Payana</div>
+  <div class="brand">Payana - The Journey</div>
   
   
     
@@ -167,8 +167,6 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <!-- navbar-brand is hidden on larger screens, but visible when the menu is collapsed -->
-                <a class="navbar-brand" href="index.html">Techno Trends</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -191,8 +189,8 @@
         </div>
         <!-- /.container -->
     </nav>
-   <div id="googleMap" style="position: absolute; right:0px; width: 800px;height:380px;"></div>
-	<div id="container" style="position: absolute;top:200px; right:810px; width: 600px;height:380px;">
+   <div id="googleMap" style="position: absolute; right:50px; width: 700px;height:450px;"></div>
+	<div id="container" style="position: absolute; left:50px; top:210px; width: 600px;height:450px;">
     
     
 		
@@ -206,7 +204,8 @@
   <div class="message green">${noavailablebikes}</div>
 <div class="message green">${successmessage}</div>
 		<form:form modelAttribute="location" action="/loadmap" >
-			<label id="locationsel" style="display:none" for="LocationSelect">Location:</label>
+			<label id="locationsel" style="display:none" for="LocationSelect">LOCATION</label>
+			&nbsp;&nbsp;&nbsp;&nbsp;
 			<form:select path="location" id="LocationSelect" style="display:none" onchange="this.form.submit()">
 				<form:option value="">Select the nearest location: </form:option>
 				<c:forEach items="${locations}" var="location1">
@@ -229,33 +228,54 @@
 		</table>
 		
 			<input id="noavailablebikes" type="hidden" value="${noavailablebikes}"/>
-			<input id="bikeid" type="hidden" value="${bikeid}"/>
+			
 			<input id="bikesid0" type="hidden" value="${bikesid0}"/>
 			<input id="bikesid1" type="hidden" value="${bikesid1}"/>
 			<input id="bikesid2" type="hidden" value="${bikesid2}"/>
-			<input id="firstSlot" type="hidden" value="${firstSlot}"/>
-			<input id="secondSlot" type="hidden" value="${secondSlot}"/>
-			<input id="thirdSlot" type="hidden" value="${thirdSlot}"/>
 			<input id="enableslot" type="hidden" value="${enableslot}"/>
 			
 		</form:form>
 <form:form id="user" modelAttribute="user" action="/sendcode">
 	
+			<input id="bikeid" type="hidden" value="${bikeid}"/>
+			<input id="firstSlot" type="hidden" value="${firstSlot}"/>
+			<input id="secondSlot" type="hidden" value="${secondSlot}"/>
+			<input id="thirdSlot" type="hidden" value="${thirdSlot}"/>
+			
 			<table id="availtable" style="display:none">
 			<tr>
 				<td>${bikeid}</td>
-				<td id="fs" style="display:none"><input type="radio" name="selslot" value="fslot" checked="checked">08AM to 10AM</td>
-				<td id="ss" style="display:none"><input type="radio" name="selslot" value="sslot">10AM to 12PM</td>
-				<td id="ts" style="display:none"><input type="radio" name="selslot" value="tslot">12PM to 2PM</td>
+				
 			</tr>
 
-		</table>	
-		<h4 id="mess" style="display:none">Select a mode to receive the bike access code</h4>
+		</table>
+		
+		<c:choose>
+  		<c:when test="${firstSlot == 'True'}">
+    			<td id="fs" style="display:none"><input type="radio" name="selslot" value="fslot" checked="checked">08AM to 10AM</td>
+				<td id="ss" style="display:none"><input type="radio" name="selslot" value="sslot">10AM to 12PM</td>
+				<td id="ts" style="display:none"><input type="radio" name="selslot" value="tslot">12PM to 2PM</td>
+  		</c:when>
+  		<c:when test="${secondSlot == 'True'}">
+				<td id="ss" style="display:none"><input type="radio" name="selslot" value="sslot" checked="checked">10AM to 12PM</td>
+				<td id="ts" style="display:none"><input type="radio" name="selslot" value="tslot">12PM to 2PM</td>
+  		</c:when>
+  		<c:when test="${thirdSlot == 'True'}">
+				<td id="ts" style="display:none"><input type="radio" name="selslot" value="tslot" checked="checked">12PM to 2PM</td>
+  		</c:when>
+</c:choose>
+		
+		
+		
+		
+			
+		<h6 id="mess" style="display:none">Select a mode to receive the bike access code</h6>
 			<table id="sendmessage" style="display:none">
 			<tr>
 				<td><input type="radio" name="sendcode" value="sendmessage" checked="checked">Message</td>
 				<td><input type="radio" name="sendcode" value="sendmail">Mail</td>
 			</tr>
+
 		</table>
 		<div id="gcalendar" style="display:none">
 		<script>
