@@ -52,8 +52,8 @@ public class BikeController {
 	DBCollection availCollection = db.getCollection("Availability");
 	
 	
-	public static final String ACCOUNT_SID = "ACcb63f40bbffb27bf7881adbce8f4640e";
-	public static final String AUTH_TOKEN = "3bda4c016a7d2f05c3b39d983d587ce5";
+	public static final String ACCOUNT_SID = "";
+	public static final String AUTH_TOKEN = "";
 	    
     JSONParser jsonParser = new JSONParser();
     JSONObject jsonObject = null;

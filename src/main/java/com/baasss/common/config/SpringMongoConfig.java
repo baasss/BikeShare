@@ -8,7 +8,7 @@ public class SpringMongoConfig {
     
     public MongoClient getMongoClient() {
     	MongoClient mongoClient=null ;
-    	String link ="mongodb://bharathnaggowda:m0ngodbPa$$@ds049150.mongolab.com:49150/bikesharedb";
+    	String link ="mongodb://bharathnaggowda:<password>@ds049150.mongolab.com:49150/bikesharedb";
     	MongoClientURI uri =new MongoClientURI(link);
     	
     	try{
